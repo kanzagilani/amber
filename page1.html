@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Logistics System</title>
+<style>
+*{
+	margin:0px;
+	padding:0px;
+	}
+body{
+	font-family:Tahoma, Geneva, sans-serif;
+	}
+#container{
+	width:550px;
+	background-color:rgba(250,250,252,.9);
+	margin:auto;
+	margin-top:10px;
+	margin-bottom:10px;
+	box-shadow:0 0 3px #999;
+	}
+#container_body{
+	padding:20px;
+	}
+.form_title{
+	font-size:35px;
+	color:#141823;
+	text-align:center;
+	padding:10px;
+	font-weight:normal;
+	}
+.head_para{
+	font-size:19px;
+	color:#99a2a7;
+	text-align:center;
+	font-weight:normal;
+	}
+#form_name{
+	padding:25px 0 0 15px;
+	}
+.ncommodity{
+	clear:both;
+	padding:15px 0 10px 0px;
+	}
+.commodity{
+	width:434px;
+	padding:5px;
+	font-size:18px;
+	}
+	#nincome{
+	clear:both;
+	padding:15px 0 10px 0px;
+	}
+.income{
+	width:434px;
+	padding:5px;
+	font-size:18px;
+	}
+#sign_user{
+	font-size:14px;
+	color:#FFF;
+	text-align:center;
+	background-color:#3B5998;
+	padding:10px;
+	margin-top:10px;
+	cursor: pointer;
+	}
+#errorBox{
+	color:#F00;
+	}
+</style>
+<script>
+function Submit(){
+
+
+	var drange = /^[0-9]*$/;
+	var arange=/^[a-zA-Z\s]+$/;
+	var name = document.form.name.value,
+	    income = document.form.income.value;
+	
+	if( name == "" )
+   {
+     document.form.name.focus() ;
+	 document.getElementById("errorBox").innerHTML = "enter the Commodity";
+     return false;
+   }else if(!arange.test(name)){
+		document.form.name.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid Commodity";
+		return false;
+	 }
+	 if (income == "" )
+	{
+		document.form.income.focus();
+		document.getElementById("errorBox").innerHTML = "enter the Income";
+		return false;
+	 }else if(!drange.test(income)){
+		document.form.income.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid income";
+		return false;
+	 }
+	 if(name != ''  && income != '' ){
+			document.getElementById("errorBox").innerHTML = "form submitted successfully";
+			//window.location.href="http://localhost/registration-form-validatio.html";
+			//return true;
+			 if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("container").innerHTML = xmlhttp.responseText;
+				window.location.href="http://registration-form-validatio.html";
+            }
+        }
+
+ var queryString = "?name=" + name ; 
+ queryString +=  "&income=" + income; 
+ xmlhttp.open("GET", "http://127.0.0.1/page1.php" +  
+                              queryString, true); 
+ xmlhttp.send(null); 
+			 
+			
+			}
+
+}
+
+function import_data(){
+ var xmlhttp
+ if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("container").innerHTML = xmlhttp.responseText;
+            }
+        }
+xmlhttp.open("GET", "http://127.0.0.1/import.php", true); 
+  xmlhttp.send(null);
+}
+			
+</script>
+</head>
+
+<body>
+<div id="description"></div>
+<!--container start-->
+<div id="container">
+  <div id="container_body">
+    <div>
+      <h2 class="form_title">Logistics Data Form</h2>
+    </div>
+	<div id"div1"> </div>
+    <!--Form  start-->
+    <div id="form_name">
+      
+       <form name="form" method="post"  >
+       <div id="errorBox"></div>
+        <div id="ncommodity">
+		<input type="text" name="name" value=""  placeholder="Enter Commodity" class="commodity">
+		</div>
+	   <div id="nincome">
+        <input type="text" name="income" value=""  placeholder="Enter Income" class="income">
+      </div>
+	  
+		 <div>
+		 <input type="button" value ="submit" id="sign_user" onclick="Submit()" />
+       
+      </div>
+	  
+		 <div>
+		 <input type="button" value ="Import Data" id="sign_user" onclick="import_data()" />
+       
+      </div>
+     </form>
+    </div>
+    <!--form ends--> 
+  </div>
+</div>
+<!--container ends-->
+</body>
+</html>

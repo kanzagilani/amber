@@ -1,0 +1,652 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Logistics System</title>
+<style>
+*{
+	margin:0px;
+	padding:0px;
+	}
+body{
+	font-family:Tahoma, Geneva, sans-serif;
+	}
+#container{
+	width:550px;
+	background-color:rgba(250,250,252,.9);
+	margin:auto;
+	margin-top:10px;
+	margin-bottom:10px;
+	box-shadow:0 0 3px #999;
+	}
+#container_body{
+	padding:20px;
+	}
+.form_title{
+	font-size:35px;
+	color:#141823;
+	text-align:center;
+	padding:10px;
+	font-weight:normal;
+	}
+.head_para{
+	font-size:19px;
+	color:#99a2a7;
+	text-align:center;
+	font-weight:normal;
+	}
+#form_name{
+	padding:25px 0 0 15px;
+	}
+
+.nid{
+	clear:both;
+	padding:5px 0 10px 0px;
+	}
+.destination{
+	width:434px;
+	padding:5px;
+	font-size:18px;
+	}
+#nhead{
+	padding:10px 0 10px 0px;
+	}
+.head{
+	width:434px;
+	padding:5px;
+	font-size:18px;
+	}
+
+
+#nexpense{
+	padding:10px 0 10px 0px;
+	}
+.expense{
+	width:434px;
+	padding:5px;
+	font-size:18px;
+	}
+.birthday_title{
+	font-size:16px; 
+	color:#8b919d; 
+	font-weight:normal;
+	padding:0 0 10px 0;
+	}
+select{
+	padding:5px;
+	}
+#birthday{
+	font-size:12px;
+	color:#8b919d;
+	padding-top:10px;
+	}
+	#Longitude{
+	font-size:12px;
+	color:#8b919d;
+	padding-top:10px;
+	}
+	#latitude{
+	font-size:12px;
+	color:#8b919d;
+	padding-top:10px;
+	}
+#radio_button{
+	padding:10px 0 0 0;
+	}
+#sign_user{
+	font-size:14px;
+	color:#FFF;
+	text-align:center;
+	background-color:#3B5998;
+	padding:10px;
+	margin-top:10px;
+	cursor: pointer;
+	}
+	
+a:link {color: #0000ff; font-size: 14pt; font-weight: bold;  }
+a:visited {color: purple; text-decoration: underline; }
+a:hover {color: orange; text-decoration: underline; }
+a:active {color: red; )
+#errorBox{
+	color:#F00;
+	}
+
+
+
+</style>
+<script>
+function Submit(){
+
+	var drange = /^[0-9]*$/;
+	var arange=/^[a-zA-Z\s]+$/;
+	
+	
+	var	head = document.form.head.value,
+		expense = document.form.expense.value,
+		month = document.form.month.value,
+		day = document.form.day.value,
+		year = document.form.year.value,
+		 id = document.form.id.value;
+
+	
+
+	  if (head == "" )
+	{
+		document.form.head.focus();
+		document.getElementById("errorBox").innerHTML = "enter the head";
+		return false;
+	 }else if(!arange.test(head)){
+		document.form.head.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid Head";
+		return false;
+	 }	
+	
+	if( id == "" )
+   {
+     document.form.id.focus() ;
+	  document.getElementById("errorBox").innerHTML = "enter the ID";
+     return false;
+   }else if(!drange.test(id)){
+		document.form.id.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid ID";
+		return false;
+	 }
+   
+   
+	 
+	
+	 
+	 
+	if(expense == "")
+	 {
+		 document.form.expense.focus();
+		 document.getElementById("errorBox").innerHTML = "enter the expense";
+		 return false;
+	 }else if(!drange.test(expense)){
+		document.form.expense.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid expense";
+		return false;
+	 }
+	 
+		 if (month == "") {
+        document.form.month.focus();
+		document.getElementById("errorBox").innerHTML = "select the expense month";
+        return false;
+     }
+	 if (day == "") {
+        document.form.day.focus();
+		document.getElementById("errorBox").innerHTML = "select the expense day";
+        return false;
+     }
+	 if (year == "") {
+        document.form.year.focus();
+		document.getElementById("errorBox").innerHTML = "select the expense year";
+        return false;
+     }
+		
+		if(  head != '' && expense != '' && month != '' && day != '' && year != '' && id !=''){
+			var xmlhttp;
+			var  lati;
+            var longi;
+            var x = document.getElementById("demo");
+
+            if (navigator.geolocation) {
+               navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+               x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+
+           function showPosition(position) {
+           lati= position.coords.latitude;
+           longi=position.coords.longitude;
+
+          document.getElementById('demo2').innerHTML = longi; 
+          document.getElementById('demo1').innerHTML = lati;
+
+	      if (window.XMLHttpRequest) {
+ 	          xmlHttp = new XMLHttpRequest();
+	      }
+	else if(window.ActiveXObject){
+ 	xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+		
+	xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status == 200 && xmlHttp.status < 300) {
+                document.getElementById('container').innerHTML = xmlHttp.responseText;
+				window.location.href="http://registration-form-validatio.html";
+            }
+        }
+    }
+	
+              var   queryString =  "?head=" + head; 
+				 queryString +=  "&expense=" + expense; 
+				 queryString +=  "&month=" + month; 
+				 queryString +=  "&day=" + day;
+                  queryString +=  "&year=" + year;
+				  queryString += "&id=" + id ; 
+				  queryString +=  "&lati=" + lati;
+				  queryString +=  "&longi=" + longi;
+            
+xmlHttp.open('GET', 'http://127.0.0.1/geo.php'+ queryString, true);
+ 
+xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+ xmlHttp.send(null);
+}
+
+			
+			
+			}
+			}
+////////////////////////////////////////////////////////	
+
+function SubmitLocally(){
+
+	var drange = /^[0-9]*$/;
+	var arange=/^[a-zA-Z\s]+$/;
+	
+	
+	var	head = document.form.head.value,
+		expense = document.form.expense.value,
+		month = document.form.month.value,
+		day = document.form.day.value,
+		year = document.form.year.value,
+		 id = document.form.id.value;
+
+	
+
+	  if (head == "" )
+	{
+		document.form.head.focus();
+		document.getElementById("errorBox").innerHTML = "enter the head";
+		return false;
+	 }else if(!arange.test(head)){
+		document.form.head.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid Head";
+		return false;
+	 }	
+	
+	if( id == "" )
+   {
+     document.form.id.focus() ;
+	  document.getElementById("errorBox").innerHTML = "enter the ID";
+     return false;
+   }else if(!drange.test(id)){
+		document.form.id.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid ID";
+		return false;
+	 }
+   
+   
+	 
+	
+	 
+	 
+	if(expense == "")
+	 {
+		 document.form.expense.focus();
+		 document.getElementById("errorBox").innerHTML = "enter the expense";
+		 return false;
+	 }else if(!drange.test(expense)){
+		document.form.expense.focus();
+		document.getElementById("errorBox").innerHTML = "enter the valid expense";
+		return false;
+	 }
+	 
+		 if (month == "") {
+        document.form.month.focus();
+		document.getElementById("errorBox").innerHTML = "select the expense month";
+        return false;
+     }
+	 if (day == "") {
+        document.form.day.focus();
+		document.getElementById("errorBox").innerHTML = "select the expense day";
+        return false;
+     }
+	 if (year == "") {
+        document.form.year.focus();
+		document.getElementById("errorBox").innerHTML = "select the expense year";
+        return false;
+     }
+		
+		if(  head != '' && expense != '' && month != '' && day != '' && year != '' && id !=''){
+			var xmlhttp;
+			var  lati;
+            var longi;
+            var x = document.getElementById("demo");
+
+            if (navigator.geolocation) {
+               navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+               x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+
+           function showPosition(position) {
+           lati= position.coords.latitude;
+           longi=position.coords.longitude;
+
+          document.getElementById('demo2').innerHTML = longi; 
+          document.getElementById('demo1').innerHTML = lati;
+
+	      if (window.XMLHttpRequest) {
+ 	          xmlHttp = new XMLHttpRequest();
+	      }
+	else if(window.ActiveXObject){
+ 	xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+		
+	xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status == 200 && xmlHttp.status < 300) {
+                document.getElementById('container').innerHTML = xmlHttp.responseText;
+				window.location.href="http://registration-form-validatio.html";
+            }
+        }
+    }
+	
+              localStorage.setItem("head",head); 
+				 localStorage.setItem("expense",expense);
+				 localStorage.setItem("month", month); 
+				 localStorage.setItem("day",day);
+                  localStorage.setItem("year", year);
+				  localStorage.setItem("id",id ); 
+				  localStorage.setItem("lati",lati);
+				  localStorage.setItem("longi", longi);
+
+}			
+			
+			}
+			}
+
+function LocalToCentral(){
+	
+	var head=localStorage.getItem("head",head); 
+			var expense=	 localStorage.getItem("expense",expense);
+			var month= localStorage.getItem("month", month); 
+				 var day=localStorage.getItem("day",day);
+                  var year=localStorage.getItem("year", year);
+			var id=	  localStorage.getItem("id",id ); 
+				var lati=  localStorage.getItem("lati",lati);
+				 var longi= localStorage.getItem("longi", longi);
+
+	var   queryString =  "?head=" + head; 
+				 queryString +=  "&expense=" + expense; 
+				 queryString +=  "&month=" + month; 
+				 queryString +=  "&day=" + day;
+                  queryString +=  "&year=" + year;
+				  queryString += "&id=" + id ; 
+				  queryString +=  "&lati=" + lati;
+				  queryString +=  "&longi=" + longi;
+if (window.XMLHttpRequest) {
+ 	          xmlHttp = new XMLHttpRequest();
+	      }
+	else if(window.ActiveXObject){
+ 	xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+		
+	xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status == 200 && xmlHttp.status < 300) {
+                document.getElementById('container').innerHTML = xmlHttp.responseText;
+				window.location.href="http://registration-form-validatio.html";
+            }
+        }
+    }
+            
+xmlHttp.open('GET', 'http://127.0.0.1/geo.php'+ queryString, true);
+ 
+xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xmlHttp.send(null);
+}
+
+
+		
+		  
+
+function import_data(){
+ var xmlhttp
+ if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("container").innerHTML = xmlhttp.responseText;
+				window.location.href="http://registration-form-validatio.html";
+            }
+        }
+xmlhttp.open("GET", "http://127.0.0.1/register.php", true); 
+  xmlhttp.send(null);
+}
+
+
+
+window.onload = function() {
+        var startPos;
+      
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            startPos = position;
+            document.getElementById("startLat").innerHTML = startPos.coords.latitude;
+            document.getElementById("startLon").innerHTML = startPos.coords.longitude;
+          }, function(error) {
+            alert("Error occurred. Error code: " + error.code);
+          });
+      
+          navigator.geolocation.watchPosition(function(position) {
+            document.getElementById("currentLat").innerHTML = position.coords.latitude;
+            document.getElementById("currentLon").innerHTML = position.coords.longitude;
+            document.getElementById("distance").innerHTML =
+              calculateDistance(startPos.coords.latitude, startPos.coords.longitude,
+                                position.coords.latitude, position.coords.longitude);
+          });
+        }
+      };
+      
+      // Reused code - copyright Moveable Type Scripts - retrieved May 4, 2010.
+      // http://www.movable-type.co.uk/scripts/latlong.html
+      // Under Creative Commons License http://creativecommons.org/licenses/by/3.0/
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // km
+        var dLat = (lat2-lat1).toRad();
+        var dLon = (lon2-lon1).toRad();
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c;
+        
+
+
+if (window.XMLHttpRequest)
+  {		
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+{
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById('div').innerHTML = xmlhttp.responseText;
+    }
+}
+
+xmlhttp.open('POST','http://127.0.0.1/Distance.php',true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+//xmlhttp.send('lat1');
+//xmlhttp.send('lon1');
+//xmlhttp.send('lat2');
+//xmlhttp.send('lon2');
+xmlhttp.send(d);
+return d;
+      }
+      Number.prototype.toRad = function() {
+        return this * Math.PI / 180;
+      }
+
+
+
+</script>
+</head>
+
+<body>
+<div id="description"></div>
+<!--container start-->
+<div id="container">
+  <div id="container_body">
+    <div>
+      <h2 class="form_title">Logistics Data Form</h2>
+    </div>
+    <!--Form  start-->
+    <div id="form_name">
+      
+       <form name="form" action="" method="post"  >
+       <div id="errorBox"></div>
+       
+		
+      
+      <div id="nhead">
+        <input type="text" name="head" value=""  placeholder="Enter Head " class="head">
+      </div>
+      <div id="nexpense">
+        <input type="text" name="expense" value=""  placeholder="Enter Expense Against Head" class="expense">
+      </div>
+      
+      <div>
+        <h3 class="date_expense">Date</h3>
+      </div>
+      <div>
+        <select name="month" >
+          <option value="" selected >Month</option>
+          <option value="1">01</option>
+          <option value="2">02</option>
+          <option value="3">03</option>
+          <option value="4">04</option>
+          <option value="5">05</option>
+          <option value="6">06</option>
+          <option value="7">07</option>
+          <option value="8">08</option>
+          <option value="9">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+        </select>
+        &nbsp;&nbsp;
+        <select name="day" >
+          <option value="" selected>Day</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+        </select>
+        &nbsp;&nbsp;
+        <select name="year">
+          <option value="" selected>Year</option>
+		  <option value="2013">2015</option>
+		  <option value="2013">2014</option>
+          <option value="2013">2013</option>
+          <option value="2012">2012</option>
+          <option value="2011">2011</option>
+          <option value="2010">2010</option>
+          <option value="2009">2009</option>
+          <option value="2008">2008</option>
+          <option value="2007">2007</option>
+          <option value="2006">2006</option>
+          <option value="2005">2005</option>
+          <option value="2004">2004</option>
+          <option value="2003">2003</option>
+          <option value="2002">2002</option>
+          <option value="2001">2001</option>
+          <option value="2000">2000</option>
+          <option value="1999">1999</option>
+          <option value="1998">1998</option>
+          <option value="1997">1997</option>
+          <option value="1996">1996</option>
+          <option value="1995">1995</option>
+          <option value="1994">1994</option>
+          <option value="1993">1993</option>
+          <option value="1992">1992</option>
+          <option value="1991">1991</option>
+          <option value="1990">1990</option>
+        </select>
+      </div>
+	  <div class="nid">
+        <input type="text" name="id" value=""  placeholder="Enter ID" class="id">
+        </div>
+	  <div>
+      <h2 class="form_title">Location of Employee</h2>
+    </div>
+	<div>
+        <h3 class="latitude">Latitude</h3>
+      </div>
+       <p id="demo1">demo</p>
+       <div>
+        <h3 class="Longitude">Longitude</h3>
+      </div>
+       <p id="demo2">demo</p>
+        <div id="geo">
+        <h3 class="Longitude">Result</h3>
+      </div>
+        <div>
+		 <input type="button" value ="submit" id="sign_user" onclick="Submit()" />
+<input type="button" value ="StoreLocally" id="sign_user" onclick="SubmitLocally()" />
+<input type="button" value ="LocalToCentral" id="sign_user" onclick="LocalToCentral()" />
+      </div>
+		 <div>
+		 <input type="button" value ="Import Data" id="sign_user" onclick="import_data()" />
+       
+      </div>
+	  <div>
+	     <a id="newcommodity" href="page1.html">New Commodity</a>
+      </div>
+     </form>
+    </div>
+    <!--form ends--> 
+  </div>
+</div>
+<p id="distance"><p>
+<p id="div"><p>
+<p>
+        Starting Location (lat, lon):<br/>
+        <span id="startLat">???</span>&deg;, <span id="startLon">???</span>&deg;
+      </p>
+      <p>
+        Current Location (lat, lon):<br/>
+        <span id="currentLat">???</span>&deg;, <span id="currentLon">???</span>&deg;
+      </p>
+<!--container ends-->
+</body>
+</html>
